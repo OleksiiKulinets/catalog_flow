@@ -15,15 +15,15 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-app-grid">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <header class="bg-white border-b border-gray-200">
+                    <x-container class="py-6">
                         {{ $header }}
-                    </div>
+                    </x-container>
                 </header>
             @endisset
 
@@ -32,5 +32,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <x-command-palette />
     </body>
 </html>

@@ -1,0 +1,181 @@
+<?php
+
+return [
+
+    'nav' => [
+        'menu' => 'Menu',
+        'dashboard' => 'Dashboard',
+        'batches' => 'Batches',
+        'settings' => 'Settings',
+        'log_out' => 'Log Out',
+    ],
+
+    'palette' => [
+        'title' => 'Quick navigate',
+        'hint_select' => 'Press a number to jump',
+        'hint_close' => 'Esc to close',
+    ],
+
+    'status' => [
+        'draft' => 'Draft',
+        'uploading' => 'Uploading',
+        'queued' => 'Queued',
+        'in_progress' => 'In progress',
+        'finalizing' => 'Finalizing',
+        'completed' => 'Completed',
+        'failed' => 'Failed',
+        'expired' => 'Expired',
+        'cancelling' => 'Cancelling',
+        'cancelled' => 'Cancelled',
+    ],
+
+    'common' => [
+        'name' => 'Name',
+        'email' => 'Email',
+        'password' => 'Password',
+        'confirm_password' => 'Confirm Password',
+        'save' => 'Save',
+        'saved' => 'Saved.',
+        'cancel' => 'Cancel',
+    ],
+
+    'auth' => [
+        'login' => [
+            'title' => 'Welcome back',
+            'subtitle' => 'Sign in to continue to your account.',
+            'remember_me' => 'Remember me',
+            'forgot_password' => 'Forgot your password?',
+            'submit' => 'Log in',
+        ],
+        'register' => [
+            'title' => 'Create an account',
+            'subtitle' => 'Get started in a few seconds.',
+            'already_registered' => 'Already registered?',
+            'submit' => 'Register',
+        ],
+        'forgot_password' => [
+            'intro' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
+            'submit' => 'Email Password Reset Link',
+        ],
+        'reset_password' => [
+            'submit' => 'Reset Password',
+        ],
+        'confirm_password' => [
+            'intro' => 'This is a secure area of the application. Please confirm your password before continuing.',
+            'submit' => 'Confirm',
+        ],
+        'verify_email' => [
+            'intro' => "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
+            'sent' => 'A new verification link has been sent to the email address you provided during registration.',
+            'resend' => 'Resend Verification Email',
+        ],
+    ],
+
+    'dashboard' => [
+        'title' => 'Dashboard',
+        'new_batch' => 'New batch',
+        'new_batch_subtitle' => 'Upload a dataset, choose a model, and describe what should change.',
+        'data_model_heading' => 'Data & Model',
+        'prompt' => 'Prompt',
+        'prompt_placeholder' => 'Describe what you want done with this data, e.g. "Translate the description column to Spanish and keep everything else unchanged."',
+        'model' => 'Model',
+        'dataset' => 'Dataset',
+        'dropzone_text' => 'Drag & drop your file here, or',
+        'browse' => 'browse',
+        'dropzone_hint' => 'XLSX, CSV or JSON · up to 25MB',
+        'or' => 'or',
+        'google_sheets_placeholder' => 'Paste a public Google Sheets link',
+        'uses_api_key' => 'Uses your saved OpenAI API key',
+        'run_batch' => 'Run batch',
+    ],
+
+    'batches' => [
+        'title' => 'Batches',
+        'subtitle' => 'Every batch you have run, in one place.',
+        'search_placeholder' => 'Search batches...',
+        'filter_status' => 'Status',
+        'filter_model' => 'Model',
+        'filter_date' => 'Date',
+        'all_statuses' => 'All statuses',
+        'all_models' => 'All models',
+        'all_dates' => 'Any time',
+        'date_today' => 'Today',
+        'date_week' => 'Last 7 days',
+        'date_month' => 'Last 30 days',
+        'sort_newest' => 'Newest first',
+        'sort_oldest' => 'Oldest first',
+        'column_name' => 'Name',
+        'column_status' => 'Status',
+        'column_model' => 'Model',
+        'column_progress' => 'Progress',
+        'column_created' => 'Created',
+        'column_actions' => 'Actions',
+        'view' => 'View',
+        'showing' => 'Showing :from-:to of :total',
+        'previous' => 'Previous',
+        'next' => 'Next',
+        'empty' => 'No batches match your filters.',
+    ],
+
+    'batch' => [
+        'back' => 'Back to Batches',
+        'overview' => 'Overview',
+        'model' => 'Model',
+        'dataset' => 'Dataset',
+        'created' => 'Created',
+        'progress' => 'Progress',
+        'status' => 'Status',
+        'prompt_used' => 'Prompt',
+        'prompt_example' => 'Translate the "description" column to Spanish and keep everything else unchanged.',
+        'download' => 'Download',
+        'results' => 'Results',
+        'results_placeholder' => 'Results will appear here once this batch finishes processing.',
+    ],
+
+    'profile' => [
+        'title' => 'Settings',
+        'nav' => [
+            'profile' => 'Profile',
+            'api_key' => 'API Key',
+            'language' => 'Language',
+            'password' => 'Password',
+            'danger_zone' => 'Danger Zone',
+        ],
+        'info' => [
+            'title' => 'Profile Information',
+            'subtitle' => "Update your account's profile information and email address.",
+            'unverified' => 'Your email address is unverified.',
+            'resend_link' => 'Click here to re-send the verification email.',
+            'verification_sent' => 'A new verification link has been sent to your email address.',
+        ],
+        'api_key' => [
+            'title' => 'OpenAI API Key',
+            'subtitle' => 'Your key is encrypted at rest and is only used to run your batches against OpenAI. You can remove it at any time.',
+            'connected_on' => 'Connected on :date',
+            'remove' => 'Remove key',
+            'removed' => 'API key removed.',
+            'label' => 'API Key',
+            'save' => 'Save Key',
+        ],
+        'language' => [
+            'title' => 'Language',
+            'subtitle' => 'Choose the language used across the interface.',
+            'english' => 'English',
+            'ukrainian' => 'Українська',
+            'save' => 'Save Language',
+        ],
+        'password_section' => [
+            'title' => 'Update Password',
+            'subtitle' => 'Ensure your account is using a long, random password to stay secure.',
+            'current' => 'Current Password',
+            'new' => 'New Password',
+        ],
+        'danger' => [
+            'title' => 'Delete Account',
+            'subtitle' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
+            'confirm_title' => 'Are you sure you want to delete your account?',
+            'confirm_subtitle' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
+        ],
+    ],
+
+];

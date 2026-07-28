@@ -1,29 +1,65 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+        <h2 class="font-bold text-2xl text-gray-900 tracking-tight">
+            {{ __('app.profile.title') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+    <x-container class="py-8">
+        <div class="flex flex-col md:flex-row gap-8 lg:gap-12">
+            <!-- Settings Nav -->
+            <nav class="md:w-52 shrink-0">
+                <ul class="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
+                    <li>
+                        <a href="#profile" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100">
+                            {{ __('app.profile.nav.profile') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#api-key" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            {{ __('app.profile.nav.api_key') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#language" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            {{ __('app.profile.nav.language') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#password" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900">
+                            {{ __('app.profile.nav.password') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#danger" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                            {{ __('app.profile.nav.danger_zone') }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Settings Content -->
+            <div class="flex-1 min-w-0 max-w-3xl space-y-6">
+                <section id="profile" class="scroll-mt-20 bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8">
                     @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
+                </section>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+                <section id="api-key" class="scroll-mt-20 bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8">
+                    @include('profile.partials.update-api-key-form')
+                </section>
+
+                <section id="language" class="scroll-mt-20 bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8">
+                    @include('profile.partials.update-language-form')
+                </section>
+
+                <section id="password" class="scroll-mt-20 bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8">
                     @include('profile.partials.update-password-form')
-                </div>
-            </div>
+                </section>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+                <section id="danger" class="scroll-mt-20 bg-white border border-red-300 rounded-xl shadow-sm p-6 sm:p-8">
                     @include('profile.partials.delete-user-form')
-                </div>
+                </section>
             </div>
         </div>
-    </div>
+    </x-container>
 </x-app-layout>

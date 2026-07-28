@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .bg-app-grid {
+        background-color: #fafbfc;
+        background-image: radial-gradient(rgba(16, 29, 50, 0.07) 1px, transparent 1px);
+        background-size: 28px 28px;
+    }
+}
