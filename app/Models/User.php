@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Packages\Google\Models\GoogleAccount;
+use Packages\Settings\Models\ApiKey;
 
 #[Fillable(['name', 'email', 'password', 'locale'])]
 #[Hidden(['password', 'remember_token'])]
@@ -34,5 +36,18 @@ class User extends Authenticatable
     public function apiKey(): HasOne
     {
         return $this->hasOne(ApiKey::class);
+    }
+
+    public function googleAccount(): HasOne
+    {
+        return $this->hasOne(GoogleAccount::class);
+    }
+
+    /**
+     * False for OAuth-only accounts, which have no local password at all.
+     */
+    public function hasUsablePassword(): bool
+    {
+        return $this->password !== null;
     }
 }

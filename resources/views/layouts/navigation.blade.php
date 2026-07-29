@@ -11,25 +11,27 @@
     <x-container>
         <div class="flex justify-between h-14">
             <div class="flex items-center gap-2">
-                <!-- Sections Menu -->
-                <x-dropdown align="left" width="w-56">
-                    <x-slot name="trigger">
-                        <button type="button" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" aria-label="{{ __('app.nav.menu') }}">
-                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
-                            </svg>
-                        </button>
-                    </x-slot>
+                <!-- Sections Menu (desktop only — mobile uses the single hamburger menu below) -->
+                <div class="hidden sm:block">
+                    <x-dropdown align="left" width="w-56">
+                        <x-slot name="trigger">
+                            <button type="button" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" aria-label="{{ __('app.nav.menu') }}">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                                </svg>
+                            </button>
+                        </x-slot>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('dashboard')" class="{{ request()->routeIs('dashboard') ? 'bg-gray-50 font-medium' : '' }}">
-                            {{ __('app.nav.dashboard') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('batches.index')" class="{{ request()->routeIs('batches.*') ? 'bg-gray-50 font-medium' : '' }}">
-                            {{ __('app.nav.batches') }}
-                        </x-dropdown-link>
-                    </x-slot>
-                </x-dropdown>
+                        <x-slot name="content">
+                            <x-dropdown-link :href="route('dashboard')" class="{{ request()->routeIs('dashboard') ? 'bg-gray-50 font-medium' : '' }}">
+                                {{ __('app.nav.dashboard') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('batches.index')" class="{{ request()->routeIs('batches.*') ? 'bg-gray-50 font-medium' : '' }}">
+                                {{ __('app.nav.batches') }}
+                            </x-dropdown-link>
+                        </x-slot>
+                    </x-dropdown>
+                </div>
 
                 <!-- Brand -->
                 <a href="{{ route('dashboard') }}" class="shrink-0 text-sm font-semibold text-navy-900 tracking-tight">
