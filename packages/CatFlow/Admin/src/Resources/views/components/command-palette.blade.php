@@ -14,7 +14,7 @@
     x-init="
         window.addEventListener('keydown', (event) => {
             const meta = event.ctrlKey || event.metaKey;
-            const isShortcut = meta && (event.key === '/' || event.key.toLowerCase() === 'k');
+            const isShortcut = meta && (event.code === 'Slash' || event.code === 'KeyK');
 
             if (isShortcut) {
                 event.preventDefault();

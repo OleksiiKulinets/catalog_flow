@@ -25,8 +25,8 @@
                 <!-- Prompt -->
                 <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 sm:p-8">
                     <h3 class="text-sm font-semibold text-gray-900">{{ __('app.batches.batch.prompt_used') }}</h3>
-                    <p class="mt-4 text-sm text-gray-700 leading-relaxed">
-                        {{ __('app.batches.batch.prompt_example') }}
+                    <p class="mt-4 text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                        {{ $batch['prompt'] }}
                     </p>
                 </div>
 
@@ -46,7 +46,11 @@
                     </div>
 
                     <div class="mt-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50/60 px-6 py-10 text-center">
-                        <p class="text-sm text-gray-500">{{ __('app.batches.batch.results_placeholder') }}</p>
+                        @if ($batch['status'] === 'draft')
+                            <p class="text-sm text-gray-500">{{ __('app.batches.batch.draft_placeholder') }}</p>
+                        @else
+                            <p class="text-sm text-gray-500">{{ __('app.batches.batch.results_placeholder') }}</p>
+                        @endif
                     </div>
                 </div>
             </div>

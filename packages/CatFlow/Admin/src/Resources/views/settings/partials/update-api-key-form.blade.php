@@ -44,6 +44,16 @@
                 <x-input-label for="openai_api_key" :value="__('app.settings.api_key.label')" />
                 <x-text-input id="openai_api_key" name="openai_api_key" type="password" class="mt-2 block w-full" placeholder="sk-..." autocomplete="off" required />
                 <x-input-error :messages="$errors->get('openai_api_key')" class="mt-2" />
+
+                <p class="mt-2 text-xs text-gray-500">
+                    {{ __('app.settings.api_key.find_hint') }}
+                    <a
+                        href="https://platform.openai.com/api-keys"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="font-medium text-navy-700 hover:text-navy-900 hover:underline"
+                    >{{ __('app.settings.api_key.find_hint_link') }}</a>.
+                </p>
             </div>
 
             <div class="flex items-center gap-4">

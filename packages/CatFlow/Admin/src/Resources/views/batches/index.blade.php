@@ -4,7 +4,7 @@
     </x-slot>
 
     @php
-        $statuses = ['queued', 'in_progress', 'completed', 'failed', 'cancelled'];
+        $statuses = ['draft', 'queued', 'in_progress', 'completed', 'failed', 'cancelled'];
     @endphp
 
     <x-container class="py-8">

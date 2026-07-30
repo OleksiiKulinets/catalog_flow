@@ -2,37 +2,74 @@
 
 namespace CatFlow\Admin\Http\Controllers;
 
-use CatFlow\Batch\Repositories\BatchRepository;
+use Carbon\Carbon;
+use CatFlow\Batch\Models\Batch;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
     private const ACTIVITY_WEEKS = 12;
 
-    public function __construct(private readonly BatchRepository $batches)
+    public function index(Request $request): View
     {
-    }
+        $userId = $request->user()->id;
+        $base = fn (): Builder => Batch::query()->where('user_id', $userId);
 
-    public function index(): View
-    {
         return view('dashboard.index', [
             'stats' => [
-                'projects' => $this->batches->count(),
-                'running' => $this->batches->countByStatus('in_progress'),
-                'completedToday' => $this->batches->completedToday(),
-                'failed' => $this->batches->countByStatus('failed'),
+                'projects' => $base()->count(),
+                'running' => $base()->where('status', 'in_progress')->count(),
+                'completedToday' => $base()->where('status', 'completed')->whereDate('finished_at', now())->count(),
+                'failed' => $base()->where('status', 'failed')->count(),
             ],
             'aiActivityStats' => [
-                'totalRequests' => $this->batches->totalAiRequests(),
-                'projectsCreated' => $this->batches->count(),
-                'batchesCompleted' => $this->batches->countByStatus('completed'),
-                'batchesFailed' => $this->batches->countByStatus('failed'),
+                'totalRequests' => $base()->sum('request_completed'),
+                'projectsCreated' => $base()->count(),
+                'batchesCompleted' => $base()->where('status', 'completed')->count(),
+                'batchesFailed' => $base()->where('status', 'failed')->count(),
             ],
-            'activityByDay' => $this->batches->activityByDay(self::ACTIVITY_WEEKS),
+            'activityByDay' => $this->activityByDay($userId, self::ACTIVITY_WEEKS),
             'activityWeeks' => self::ACTIVITY_WEEKS,
-            'activityFeed' => $this->batches->recent(5),
-            'runningBatches' => $this->batches->running(3),
-            'recentBatches' => $this->batches->recent(5),
+            'activityFeed' => $base()->with('dataset')->latest()->take(5)->get()
+                ->map(fn (Batch $batch) => $batch->toDisplayArray()),
+            'runningBatches' => $base()->with('dataset')->where('status', 'in_progress')->latest()->take(3)->get()
+                ->map(fn (Batch $batch) => $batch->toDisplayArray()),
+            'recentBatches' => $base()->with('dataset')->latest()->take(5)->get()
+                ->map(fn (Batch $batch) => $batch->toDisplayArray()),
         ]);
+    }
+
+    /**
+     * One entry per day for the last $weeks weeks (Sun–Sat columns), each
+     * with how many batches were created that day — the raw data behind the
+     * GitHub-style activity heatmap.
+     *
+     * @return array<int, array{date: string, label: string, count: int}>
+     */
+    private function activityByDay(int $userId, int $weeks): array
+    {
+        $today = now()->startOfDay();
+        $start = $today->copy()->subWeeks($weeks - 1)->startOfWeek(Carbon::SUNDAY);
+
+        $counts = Batch::where('user_id', $userId)
+            ->where('created_at', '>=', $start)
+            ->get(['created_at'])
+            ->countBy(fn (Batch $batch) => $batch->created_at->toDateString());
+
+        $days = [];
+
+        for ($date = $start->copy(); $date->lte($today); $date->addDay()) {
+            $key = $date->format('Y-m-d');
+
+            $days[] = [
+                'date' => $key,
+                'label' => $date->toFormattedDateString(),
+                'count' => $counts->get($key, 0),
+            ];
+        }
+
+        return $days;
     }
 }
