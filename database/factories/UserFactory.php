@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use CatFlow\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -12,6 +12,13 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    /**
+     * Laravel's default model-name convention only resolves models under
+     * the app's root namespace (App\Models\*); this factory's model lives
+     * under CatFlow\User\Models, so it has to be pointed at explicitly.
+     */
+    protected $model = User::class;
+
     /**
      * The current password being used by the factory.
      */

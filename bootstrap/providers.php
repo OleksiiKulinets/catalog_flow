@@ -1,17 +1,21 @@
 <?php
 
 use App\Providers\AppServiceProvider;
-use Packages\Auth\Providers\AuthServiceProvider;
-use Packages\Batches\Providers\BatchesServiceProvider;
-use Packages\Dashboard\Providers\DashboardServiceProvider;
-use Packages\Google\Providers\GoogleServiceProvider;
-use Packages\Settings\Providers\SettingsServiceProvider;
+use CatFlow\Admin\Providers\AdminServiceProvider;
+use CatFlow\Auth\Providers\AuthServiceProvider;
+use CatFlow\Batch\Providers\BatchServiceProvider;
+use CatFlow\File\Providers\FileServiceProvider;
+use CatFlow\Prompt\Providers\PromptServiceProvider;
+use CatFlow\Settings\Providers\SettingsServiceProvider;
+use CatFlow\User\Providers\UserServiceProvider;
 
 return [
     AppServiceProvider::class,
+    UserServiceProvider::class,
     AuthServiceProvider::class,
-    DashboardServiceProvider::class,
-    BatchesServiceProvider::class,
     SettingsServiceProvider::class,
-    GoogleServiceProvider::class,
+    FileServiceProvider::class,
+    PromptServiceProvider::class,
+    BatchServiceProvider::class,
+    AdminServiceProvider::class,
 ];

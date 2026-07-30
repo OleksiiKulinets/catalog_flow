@@ -24,7 +24,13 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Packages\\": "resources/packages/",
+            "CatFlow\\User\\": "packages/CatFlow/User/src/",
+            "CatFlow\\Auth\\": "packages/CatFlow/Auth/src/",
+            "CatFlow\\Settings\\": "packages/CatFlow/Settings/src/",
+            "CatFlow\\File\\": "packages/CatFlow/File/src/",
+            "CatFlow\\Prompt\\": "packages/CatFlow/Prompt/src/",
+            "CatFlow\\Batch\\": "packages/CatFlow/Batch/src/",
+            "CatFlow\\Admin\\": "packages/CatFlow/Admin/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }

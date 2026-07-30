@@ -1,11 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('dashboard');
-    }
-
-    return view('Welcome.index');
-})->name('welcome');
+require __DIR__ . '/auth-routes.php';
+require __DIR__ . '/admin-routes.php';
+require __DIR__ . '/batch-routes.php';
+require __DIR__ . '/settings-routes.php';
