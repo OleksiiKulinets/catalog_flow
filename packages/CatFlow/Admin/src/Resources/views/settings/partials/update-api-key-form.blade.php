@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-base font-semibold text-gray-900">
-            {{ __('settings.api_key.title') }}
+            {{ __('app.settings.api_key.title') }}
         </h2>
 
         <p class="mt-2 text-sm text-gray-500">
-            {{ __('settings.api_key.subtitle') }}
+            {{ __('app.settings.api_key.subtitle') }}
         </p>
     </header>
 
@@ -18,7 +18,7 @@
                         sk-&hellip;{{ $apiKey->last_four }}
                     </p>
                     <p class="text-xs text-gray-500">
-                        {{ __('settings.api_key.connected_on', ['date' => $apiKey->created_at->format('M j, Y')]) }}
+                        {{ __('app.settings.api_key.connected_on', ['date' => $apiKey->created_at->format('M j, Y')]) }}
                     </p>
                 </div>
             </div>
@@ -28,26 +28,26 @@
                 @method('delete')
 
                 <x-danger-button type="submit">
-                    {{ __('settings.api_key.remove') }}
+                    {{ __('app.settings.api_key.remove') }}
                 </x-danger-button>
             </form>
         </div>
 
         @if (session('status') === 'api-key-deleted')
-            <p class="mt-2 text-sm text-gray-600">{{ __('settings.api_key.removed') }}</p>
+            <p class="mt-2 text-sm text-gray-600">{{ __('app.settings.api_key.removed') }}</p>
         @endif
     @else
         <form method="post" action="{{ route('api-key.store') }}" class="mt-6 space-y-6">
             @csrf
 
             <div class="max-w-xl">
-                <x-input-label for="openai_api_key" :value="__('settings.api_key.label')" />
+                <x-input-label for="openai_api_key" :value="__('app.settings.api_key.label')" />
                 <x-text-input id="openai_api_key" name="openai_api_key" type="password" class="mt-2 block w-full" placeholder="sk-..." autocomplete="off" required />
                 <x-input-error :messages="$errors->get('openai_api_key')" class="mt-2" />
             </div>
 
             <div class="flex items-center gap-4">
-                <x-primary-button>{{ __('settings.api_key.save') }}</x-primary-button>
+                <x-primary-button>{{ __('app.settings.api_key.save') }}</x-primary-button>
 
                 @if (session('status') === 'api-key-updated')
                     <p
@@ -56,7 +56,7 @@
                         x-transition
                         x-init="setTimeout(() => show = false, 2000)"
                         class="text-sm text-gray-600"
-                    >{{ __('admin.common.saved') }}</p>
+                    >{{ __('app.admin.common.saved') }}</p>
                 @endif
             </div>
         </form>

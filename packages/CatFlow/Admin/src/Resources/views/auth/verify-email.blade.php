@@ -1,11 +1,11 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600">
-        {{ __('auth.verify_email.intro') }}
+        {{ __('app.auth.verify_email.intro') }}
     </div>
 
     @if (session('status') == 'verification-link-sent')
         <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('auth.verify_email.sent') }}
+            {{ __('app.auth.verify_email.sent') }}
         </div>
     @endif
 
@@ -15,7 +15,7 @@
 
             <div>
                 <x-primary-button>
-                    {{ __('auth.verify_email.resend') }}
+                    {{ __('app.auth.verify_email.resend') }}
                 </x-primary-button>
             </div>
         </form>
@@ -24,7 +24,7 @@
             @csrf
 
             <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy-500">
-                {{ __('admin.nav.log_out') }}
+                {{ __('app.admin.nav.log_out') }}
             </button>
         </form>
     </div>

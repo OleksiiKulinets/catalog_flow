@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-heading>{{ __('settings.title') }}</x-page-heading>
+        <x-page-heading>{{ __('app.settings.title') }}</x-page-heading>
     </x-slot>
 
     <x-container class="py-8">
@@ -10,27 +10,27 @@
                 <ul class="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
                     <li>
                         <a href="#profile" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100">
-                            {{ __('settings.nav.profile') }}
+                            {{ __('app.settings.nav.profile') }}
                         </a>
                     </li>
                     <li>
                         <a href="#api-key" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-                            {{ __('settings.nav.api_key') }}
+                            {{ __('app.settings.nav.api_key') }}
                         </a>
                     </li>
                     <li>
                         <a href="#language" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-                            {{ __('settings.nav.language') }}
+                            {{ __('app.settings.nav.language') }}
                         </a>
                     </li>
                     <li>
                         <a href="#password" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-                            {{ __('settings.nav.password') }}
+                            {{ __('app.settings.nav.password') }}
                         </a>
                     </li>
                     <li>
                         <a href="#danger" class="block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                            {{ __('settings.nav.danger_zone') }}
+                            {{ __('app.settings.nav.danger_zone') }}
                         </a>
                     </li>
                 </ul>

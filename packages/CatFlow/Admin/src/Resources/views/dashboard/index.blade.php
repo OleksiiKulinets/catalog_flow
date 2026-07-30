@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between gap-4">
-            <x-page-heading>{{ __('admin.dashboard.title') }}</x-page-heading>
+            <x-page-heading>{{ __('app.admin.dashboard.title') }}</x-page-heading>
 
             <a
                 href="{{ route('batches.create') }}"
@@ -10,7 +10,7 @@
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                {{ __('admin.dashboard.create_project') }}
+                {{ __('app.admin.dashboard.create_project') }}
             </a>
         </div>
     </x-slot>
@@ -19,27 +19,27 @@
         <!-- Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('admin.dashboard.stats.projects') }}</p>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.projects') }}</p>
                 <p class="mt-1 text-2xl font-bold text-gray-900">{{ $stats['projects'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('admin.dashboard.stats.projects_subtitle') }}</p>
+                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.projects_subtitle') }}</p>
             </div>
 
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('admin.dashboard.stats.running') }}</p>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.running') }}</p>
                 <p class="mt-1 text-2xl font-bold text-gray-900">{{ $stats['running'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('admin.dashboard.stats.running_subtitle') }}</p>
+                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.running_subtitle') }}</p>
             </div>
 
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('admin.dashboard.stats.completed_today') }}</p>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.completed_today') }}</p>
                 <p class="mt-1 text-2xl font-bold text-gray-900">{{ $stats['completedToday'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('admin.dashboard.stats.completed_today_subtitle') }}</p>
+                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.completed_today_subtitle') }}</p>
             </div>
 
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('admin.dashboard.stats.failed') }}</p>
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.failed') }}</p>
                 <p class="mt-1 text-2xl font-bold {{ $stats['failed'] > 0 ? 'text-red-600' : 'text-gray-900' }}">{{ $stats['failed'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('admin.dashboard.stats.failed_subtitle') }}</p>
+                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.failed_subtitle') }}</p>
             </div>
         </div>
 
@@ -47,7 +47,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
                 <div class="px-5 py-3 border-b border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ __('admin.dashboard.activity_feed.title') }}</h3>
+                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.activity_feed.title') }}</h3>
                 </div>
 
                 <div class="divide-y divide-gray-100 flex-1">
@@ -68,7 +68,7 @@
 
                             <div class="min-w-0 flex-1">
                                 <p class="text-sm text-gray-900 truncate">
-                                    <span class="font-medium">{{ __('admin.dashboard.activity_labels.'.$event['status']) }}</span>
+                                    <span class="font-medium">{{ __('app.admin.dashboard.activity_labels.'.$event['status']) }}</span>
                                     <span class="text-gray-500">· {{ $event['name'] }}</span>
                                 </p>
                             </div>
@@ -77,21 +77,21 @@
                         </div>
                     @empty
                         <div class="px-5 py-8 text-center text-sm text-gray-500">
-                            {{ __('admin.dashboard.activity_feed.empty') }}
+                            {{ __('app.admin.dashboard.activity_feed.empty') }}
                         </div>
                     @endforelse
                 </div>
 
                 <div class="px-5 py-3 border-t border-gray-100 text-center">
                     <a href="{{ route('batches.index') }}" class="text-sm font-medium text-navy-700 hover:text-navy-900 hover:underline">
-                        {{ __('admin.dashboard.activity_feed.view_all') }}
+                        {{ __('app.admin.dashboard.activity_feed.view_all') }}
                     </a>
                 </div>
             </div>
 
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5 flex flex-col">
-                <h3 class="text-sm font-semibold text-gray-900">{{ __('admin.dashboard.ai_activity.title') }}</h3>
-                <p class="mt-0.5 text-xs text-gray-500">{{ __('admin.dashboard.ai_activity.subtitle', ['weeks' => $activityWeeks]) }}</p>
+                <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.ai_activity.title') }}</h3>
+                <p class="mt-0.5 text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.subtitle', ['weeks' => $activityWeeks]) }}</p>
 
                 <div class="mt-4 flex flex-1 items-center gap-5">
                     <div class="flex gap-1">
@@ -114,31 +114,31 @@
 
                     <div class="flex-1 min-w-0 space-y-2.5 border-l border-gray-100 pl-5">
                         <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('admin.dashboard.ai_activity.total_requests') }}</span>
+                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.total_requests') }}</span>
                             <span class="text-sm font-semibold text-gray-900 tabular-nums">{{ number_format($aiActivityStats['totalRequests']) }}</span>
                         </div>
                         <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('admin.dashboard.ai_activity.projects_created') }}</span>
+                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.projects_created') }}</span>
                             <span class="text-sm font-semibold text-gray-900 tabular-nums">{{ $aiActivityStats['projectsCreated'] }}</span>
                         </div>
                         <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('admin.dashboard.ai_activity.batches_completed') }}</span>
+                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.batches_completed') }}</span>
                             <span class="text-sm font-semibold text-green-600 tabular-nums">{{ $aiActivityStats['batchesCompleted'] }}</span>
                         </div>
                         <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('admin.dashboard.ai_activity.batches_failed') }}</span>
+                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.batches_failed') }}</span>
                             <span class="text-sm font-semibold {{ $aiActivityStats['batchesFailed'] > 0 ? 'text-red-600' : 'text-gray-900' }} tabular-nums">{{ $aiActivityStats['batchesFailed'] }}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-3 flex items-center justify-end gap-1.5 text-xs text-gray-400">
-                    <span>{{ __('admin.dashboard.ai_activity.less') }}</span>
+                    <span>{{ __('app.admin.dashboard.ai_activity.less') }}</span>
                     <span class="h-2.5 w-2.5 rounded-sm bg-gray-100"></span>
                     <span class="h-2.5 w-2.5 rounded-sm bg-navy-300"></span>
                     <span class="h-2.5 w-2.5 rounded-sm bg-navy-500"></span>
                     <span class="h-2.5 w-2.5 rounded-sm bg-navy-700"></span>
-                    <span>{{ __('admin.dashboard.ai_activity.more') }}</span>
+                    <span>{{ __('app.admin.dashboard.ai_activity.more') }}</span>
                 </div>
             </div>
         </div>
@@ -147,7 +147,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
                 <div class="px-5 py-3 border-b border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ __('admin.dashboard.running.title') }}</h3>
+                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.running.title') }}</h3>
                 </div>
 
                 <div class="divide-y divide-gray-100">
@@ -172,7 +172,7 @@
                         </a>
                     @empty
                         <div class="px-5 py-8 text-center text-sm text-gray-500">
-                            {{ __('admin.dashboard.running.empty') }}
+                            {{ __('app.admin.dashboard.running.empty') }}
                         </div>
                     @endforelse
                 </div>
@@ -180,10 +180,10 @@
 
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
                 <div class="flex items-center justify-between px-5 py-3 border-b border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ __('admin.dashboard.recent.title') }}</h3>
+                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.recent.title') }}</h3>
 
                     <a href="{{ route('batches.index') }}" class="text-sm font-medium text-navy-700 hover:text-navy-900 hover:underline">
-                        {{ __('admin.dashboard.recent.more') }}
+                        {{ __('app.admin.dashboard.recent.more') }}
                     </a>
                 </div>
 
@@ -200,7 +200,7 @@
                         </a>
                     @empty
                         <div class="px-5 py-8 text-center text-sm text-gray-500">
-                            {{ __('admin.dashboard.recent.empty') }}
+                            {{ __('app.admin.dashboard.recent.empty') }}
                         </div>
                     @endforelse
                 </div>

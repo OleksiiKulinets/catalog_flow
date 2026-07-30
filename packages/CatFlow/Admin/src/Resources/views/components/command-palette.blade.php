@@ -1,8 +1,8 @@
 @php
     $paletteItems = [
-        ['key' => '1', 'label' => __('admin.nav.dashboard'), 'url' => route('dashboard'), 'active' => request()->routeIs('dashboard')],
-        ['key' => '2', 'label' => __('admin.nav.batches'), 'url' => route('batches.index'), 'active' => request()->routeIs('batches.*')],
-        ['key' => '3', 'label' => __('admin.nav.settings'), 'url' => route('profile.edit'), 'active' => request()->routeIs('profile.edit')],
+        ['key' => '1', 'label' => __('app.admin.nav.dashboard'), 'url' => route('dashboard'), 'active' => request()->routeIs('dashboard')],
+        ['key' => '2', 'label' => __('app.admin.nav.batches'), 'url' => route('batches.index'), 'active' => request()->routeIs('batches.*')],
+        ['key' => '3', 'label' => __('app.admin.nav.settings'), 'url' => route('profile.edit'), 'active' => request()->routeIs('profile.edit')],
     ];
 @endphp
 
@@ -62,7 +62,7 @@
         class="relative mx-auto mt-24 max-w-md bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden"
     >
         <div class="px-4 py-3 border-b border-gray-100">
-            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('admin.palette.title') }}</p>
+            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.palette.title') }}</p>
         </div>
 
         <div class="p-2">
@@ -80,8 +80,8 @@
         </div>
 
         <div class="px-4 py-2.5 border-t border-gray-100 bg-gray-50/60 flex items-center justify-between text-xs text-gray-400">
-            <span>{{ __('admin.palette.hint_select') }}</span>
-            <span>{{ __('admin.palette.hint_close') }}</span>
+            <span>{{ __('app.admin.palette.hint_select') }}</span>
+            <span>{{ __('app.admin.palette.hint_close') }}</span>
         </div>
     </div>
 </div>

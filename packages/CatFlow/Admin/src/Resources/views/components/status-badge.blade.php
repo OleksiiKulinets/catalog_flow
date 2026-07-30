@@ -9,7 +9,7 @@
         default => ['dot' => 'bg-gray-400', 'text' => 'text-gray-600', 'bg' => 'bg-gray-100'],
     };
 
-    $label = __("batches.status.{$status}");
+    $label = __("app.batches.status.{$status}");
 @endphp
 
 <span {{ $attributes->merge(['class' => "inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ring-1 ring-inset ring-black/5 {$styles['bg']} {$styles['text']}"]) }}>

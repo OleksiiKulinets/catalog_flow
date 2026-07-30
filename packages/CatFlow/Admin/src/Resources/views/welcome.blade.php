@@ -43,13 +43,13 @@
                     <a
                         href="{{ route('login') }}"
                         class="rounded-lg border border-transparent px-4 py-2 text-sm font-medium text-gray-600 transition hover:text-navy-900">
-                        {{ __('admin.welcome.nav_login') }}
+                        {{ __('app.admin.welcome.nav_login') }}
                     </a>
 
                     <a
                         href="{{ route('register') }}"
                         class="rounded-lg bg-navy-900 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-navy-800">
-                        {{ __('admin.welcome.nav_register') }}
+                        {{ __('app.admin.welcome.nav_register') }}
                     </a>
 
                 </nav>
@@ -61,7 +61,7 @@
                 <section class="grid min-h-[78vh] items-center gap-20 py-12 lg:grid-cols-2">
                     <div class="max-w-xl">
                         <span class="inline-flex items-center rounded-full border border-gray-200 bg-white px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-gray-500 shadow-sm">
-                            {{ __('admin.welcome.eyebrow') }}
+                            {{ __('app.admin.welcome.eyebrow') }}
                         </span>
 
                         <h1 class="mt-8 text-5xl font-semibold leading-tight tracking-tight text-navy-900 lg:text-6xl">
@@ -82,7 +82,7 @@
                             <a
                                 href="{{ route('register') }}"
                                 class="inline-flex items-center justify-center rounded-xl bg-navy-900 px-7 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-navy-800">
-                                {{ __('admin.welcome.cta_primary') }}
+                                {{ __('app.admin.welcome.cta_primary') }}
                             </a>
 
                             <a

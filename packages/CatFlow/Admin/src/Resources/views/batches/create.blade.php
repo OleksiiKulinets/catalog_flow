@@ -1,18 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-heading>{{ __('batches.batches.create.title') }}</x-page-heading>
+        <x-page-heading>{{ __('app.batches.batches.create.title') }}</x-page-heading>
     </x-slot>
 
     <x-container class="py-8">
-        <p class="text-sm text-gray-500 mb-6">{{ __('batches.batches.create.subtitle') }}</p>
+        <p class="text-sm text-gray-500 mb-6">{{ __('app.batches.batches.create.subtitle') }}</p>
 
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm divide-y divide-gray-100 overflow-hidden">
             <!-- Data & Model -->
             <div class="p-6 sm:p-8">
-                <h3 class="text-sm font-semibold text-gray-900">{{ __('batches.batches.create.data_model_heading') }}</h3>
+                <h3 class="text-sm font-semibold text-gray-900">{{ __('app.batches.batches.create.data_model_heading') }}</h3>
 
                 <div class="mt-4 max-w-sm">
-                    <x-input-label for="model" :value="__('batches.batches.create.model')" />
+                    <x-input-label for="model" :value="__('app.batches.batches.create.model')" />
                     <select id="model" class="mt-2 block w-full rounded-lg border-gray-300 bg-white text-sm focus:border-navy-500 focus:ring-navy-500">
                         <option>GPT-4.1</option>
                         <option>GPT-4.1 mini</option>
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="mt-6">
-                    <x-input-label :value="__('batches.batches.create.dataset')" />
+                    <x-input-label :value="__('app.batches.batches.create.dataset')" />
 
                     <div
                         x-data="{ dragging: false }"
@@ -44,39 +44,39 @@
                         </span>
 
                         <p class="text-sm font-medium text-gray-700">
-                            {{ __('batches.batches.create.dropzone_text') }} <span class="text-navy-700 underline">{{ __('batches.batches.create.browse') }}</span>
+                            {{ __('app.batches.batches.create.dropzone_text') }} <span class="text-navy-700 underline">{{ __('app.batches.batches.create.browse') }}</span>
                         </p>
-                        <p class="text-xs text-gray-400">{{ __('batches.batches.create.dropzone_hint') }}</p>
+                        <p class="text-xs text-gray-400">{{ __('app.batches.batches.create.dropzone_hint') }}</p>
                     </div>
 
                     <div class="mt-4 max-w-sm flex items-center gap-4">
                         <div class="h-px flex-1 bg-gray-200"></div>
-                        <span class="text-xs font-medium text-gray-400 uppercase tracking-wide">{{ __('batches.batches.create.or') }}</span>
+                        <span class="text-xs font-medium text-gray-400 uppercase tracking-wide">{{ __('app.batches.batches.create.or') }}</span>
                         <div class="h-px flex-1 bg-gray-200"></div>
                     </div>
 
-                    <x-text-input type="url" class="mt-4 block w-full max-w-sm" placeholder="{{ __('batches.batches.create.google_sheets_placeholder') }}" />
+                    <x-text-input type="url" class="mt-4 block w-full max-w-sm" placeholder="{{ __('app.batches.batches.create.google_sheets_placeholder') }}" />
                 </div>
             </div>
 
             <!-- Prompt -->
             <div class="p-6 sm:p-8">
-                <h3 class="text-sm font-semibold text-gray-900">{{ __('batches.batches.create.prompt') }}</h3>
+                <h3 class="text-sm font-semibold text-gray-900">{{ __('app.batches.batches.create.prompt') }}</h3>
 
                 <textarea
                     id="prompt"
                     rows="5"
                     class="mt-4 block w-full rounded-lg border-gray-300 bg-white text-sm placeholder-gray-400 focus:border-navy-500 focus:ring-navy-500"
-                    placeholder="{{ __('batches.batches.create.prompt_placeholder') }}"
+                    placeholder="{{ __('app.batches.batches.create.prompt_placeholder') }}"
                 ></textarea>
             </div>
 
             <!-- Send -->
             <div class="px-6 sm:px-8 py-5 flex items-center justify-between bg-gray-50/60">
-                <p class="text-xs text-gray-500">{{ __('batches.batches.create.uses_api_key') }}</p>
+                <p class="text-xs text-gray-500">{{ __('app.batches.batches.create.uses_api_key') }}</p>
 
                 <x-primary-button type="button" class="gap-2">
-                    {{ __('batches.batches.create.run_batch') }}
+                    {{ __('app.batches.batches.create.run_batch') }}
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.769 59.769 0 0121.485 12 59.768 59.768 0 013.27 20.876L5.999 12zm0 0h7.5" />
                     </svg>

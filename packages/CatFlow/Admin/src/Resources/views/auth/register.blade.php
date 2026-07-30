@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6">
-        <h1 class="text-xl font-semibold text-gray-900">{{ __('auth.register.title') }}</h1>
-        <p class="mt-2 text-sm text-gray-500">{{ __('auth.register.subtitle') }}</p>
+        <h1 class="text-xl font-semibold text-gray-900">{{ __('app.auth.register.title') }}</h1>
+        <p class="mt-2 text-sm text-gray-500">{{ __('app.auth.register.subtitle') }}</p>
     </div>
 
     <a
@@ -14,12 +14,12 @@
             <path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29A11.96 11.96 0 000 12c0 1.93.46 3.76 1.29 5.38l3.98-3.09z"/>
             <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/>
         </svg>
-        {{ __('auth.continue_with_google') }}
+        {{ __('app.auth.continue_with_google') }}
     </a>
 
     <div class="my-6 flex items-center gap-4">
         <div class="h-px flex-1 bg-gray-200"></div>
-        <span class="text-xs font-medium text-gray-400 uppercase tracking-wide">{{ __('auth.or_divider') }}</span>
+        <span class="text-xs font-medium text-gray-400 uppercase tracking-wide">{{ __('app.auth.or_divider') }}</span>
         <div class="h-px flex-1 bg-gray-200"></div>
     </div>
 
@@ -28,21 +28,21 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('admin.common.name')" />
+            <x-input-label for="name" :value="__('app.admin.common.name')" />
             <x-text-input id="name" class="block mt-2 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('admin.common.email')" />
+            <x-input-label for="email" :value="__('app.admin.common.email')" />
             <x-text-input id="email" class="block mt-2 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('admin.common.password')" />
+            <x-input-label for="password" :value="__('app.admin.common.password')" />
 
             <x-text-input id="password" class="block mt-2 w-full"
                             type="password"
@@ -54,7 +54,7 @@
 
         <!-- Confirm Password -->
         <div>
-            <x-input-label for="password_confirmation" :value="__('admin.common.confirm_password')" />
+            <x-input-label for="password_confirmation" :value="__('app.admin.common.confirm_password')" />
 
             <x-text-input id="password_confirmation" class="block mt-2 w-full"
                             type="password"
@@ -65,11 +65,11 @@
 
         <div class="flex items-center justify-between pt-2">
             <a class="text-sm text-navy-700 hover:text-navy-900 hover:underline rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy-500" href="{{ route('login') }}">
-                {{ __('auth.register.already_registered') }}
+                {{ __('app.auth.register.already_registered') }}
             </a>
 
             <x-primary-button>
-                {{ __('auth.register.submit') }}
+                {{ __('app.auth.register.submit') }}
             </x-primary-button>
         </div>
     </form>

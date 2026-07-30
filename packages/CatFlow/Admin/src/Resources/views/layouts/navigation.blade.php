@@ -15,7 +15,7 @@
                 <div class="hidden sm:block">
                     <x-dropdown align="left" width="w-56">
                         <x-slot name="trigger">
-                            <button type="button" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" aria-label="{{ __('admin.nav.menu') }}">
+                            <button type="button" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" aria-label="{{ __('app.admin.nav.menu') }}">
                                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
                                 </svg>
@@ -24,10 +24,10 @@
 
                         <x-slot name="content">
                             <x-dropdown-link :href="route('dashboard')" class="{{ request()->routeIs('dashboard') ? 'bg-gray-50 font-medium' : '' }}">
-                                {{ __('admin.nav.dashboard') }}
+                                {{ __('app.admin.nav.dashboard') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('batches.index')" class="{{ request()->routeIs('batches.*') ? 'bg-gray-50 font-medium' : '' }}">
-                                {{ __('admin.nav.batches') }}
+                                {{ __('app.admin.nav.batches') }}
                             </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
@@ -50,7 +50,7 @@
                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" />
                     </svg>
-                    <span class="hidden lg:inline">{{ __('admin.palette.title') }}</span>
+                    <span class="hidden lg:inline">{{ __('app.admin.palette.title') }}</span>
                     <span class="inline-flex items-center gap-0.5 rounded border border-gray-300 bg-white px-1.5 py-0.5 font-mono text-[10px] text-gray-400">
                         <span>Ctrl</span><span>/</span>
                     </span>
@@ -78,7 +78,7 @@
                         <div class="border-t border-gray-100"></div>
 
                         <x-dropdown-link :href="route('profile.edit')" class="{{ request()->routeIs('profile.edit') ? 'bg-gray-50 font-medium' : '' }}">
-                            {{ __('admin.nav.settings') }}
+                            {{ __('app.admin.nav.settings') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -88,7 +88,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('admin.nav.log_out') }}
+                                {{ __('app.admin.nav.log_out') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -111,10 +111,10 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('admin.nav.dashboard') }}
+                {{ __('app.admin.nav.dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('batches.index')" :active="request()->routeIs('batches.*')">
-                {{ __('admin.nav.batches') }}
+                {{ __('app.admin.nav.batches') }}
             </x-responsive-nav-link>
         </div>
 
@@ -127,7 +127,7 @@
 
             <div class="mt-4 space-y-2">
                 <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
-                    {{ __('admin.nav.settings') }}
+                    {{ __('app.admin.nav.settings') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -137,7 +137,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('admin.nav.log_out') }}
+                        {{ __('app.admin.nav.log_out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

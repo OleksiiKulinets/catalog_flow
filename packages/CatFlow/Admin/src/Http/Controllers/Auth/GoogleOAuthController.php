@@ -44,7 +44,7 @@ class GoogleOAuthController extends Controller
             report($e);
 
             return redirect()->route('login')->withErrors([
-                'email' => __('auth::auth.google_failed'),
+                'email' => __('app.auth.google_failed'),
             ]);
         }
 

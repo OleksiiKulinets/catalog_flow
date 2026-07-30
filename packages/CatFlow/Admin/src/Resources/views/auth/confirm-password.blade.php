@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600">
-        {{ __('auth.confirm_password.intro') }}
+        {{ __('app.auth.confirm_password.intro') }}
     </div>
 
     <form method="POST" action="{{ route('password.confirm') }}">
@@ -8,7 +8,7 @@
 
         <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('admin.common.password')" />
+            <x-input-label for="password" :value="__('app.admin.common.password')" />
 
             <x-text-input id="password" class="block mt-2 w-full"
                             type="password"
@@ -20,7 +20,7 @@
 
         <div class="flex justify-end mt-4">
             <x-primary-button>
-                {{ __('auth.confirm_password.submit') }}
+                {{ __('app.auth.confirm_password.submit') }}
             </x-primary-button>
         </div>
     </form>

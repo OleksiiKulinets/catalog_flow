@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-heading>{{ __('batches.batches.title') }}</x-page-heading>
+        <x-page-heading>{{ __('app.batches.batches.title') }}</x-page-heading>
     </x-slot>
 
     @php
@@ -8,7 +8,7 @@
     @endphp
 
     <x-container class="py-8">
-        <p class="text-sm text-gray-500 mb-6">{{ __('batches.batches.subtitle') }}</p>
+        <p class="text-sm text-gray-500 mb-6">{{ __('app.batches.batches.subtitle') }}</p>
 
         <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
             <!-- Toolbar -->
@@ -21,45 +21,45 @@
                         type="text"
                         name="search"
                         value="{{ $filters['search'] ?? '' }}"
-                        placeholder="{{ __('batches.batches.search_placeholder') }}"
+                        placeholder="{{ __('app.batches.batches.search_placeholder') }}"
                         class="block w-full pl-9"
                     />
                 </div>
 
                 <select name="status" onchange="this.form.submit()" class="rounded-lg border-gray-300 bg-white text-sm focus:border-navy-500 focus:ring-navy-500">
-                    <option value="">{{ __('batches.batches.all_statuses') }}</option>
+                    <option value="">{{ __('app.batches.batches.all_statuses') }}</option>
                     @foreach ($statuses as $status)
-                        <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ __("batch::batch.status.$status") }}</option>
+                        <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ __("app.batches.status.$status") }}</option>
                     @endforeach
                 </select>
 
                 <select name="model" onchange="this.form.submit()" class="rounded-lg border-gray-300 bg-white text-sm focus:border-navy-500 focus:ring-navy-500">
-                    <option value="">{{ __('batches.batches.all_models') }}</option>
+                    <option value="">{{ __('app.batches.batches.all_models') }}</option>
                     @foreach ($allModels as $model)
                         <option value="{{ $model }}" @selected(($filters['model'] ?? '') === $model)>{{ $model }}</option>
                     @endforeach
                 </select>
 
                 <select name="date" onchange="this.form.submit()" class="rounded-lg border-gray-300 bg-white text-sm focus:border-navy-500 focus:ring-navy-500">
-                    <option value="">{{ __('batches.batches.all_dates') }}</option>
-                    <option value="today" @selected(($filters['date'] ?? '') === 'today')>{{ __('batches.batches.date_today') }}</option>
-                    <option value="week" @selected(($filters['date'] ?? '') === 'week')>{{ __('batches.batches.date_week') }}</option>
-                    <option value="month" @selected(($filters['date'] ?? '') === 'month')>{{ __('batches.batches.date_month') }}</option>
+                    <option value="">{{ __('app.batches.batches.all_dates') }}</option>
+                    <option value="today" @selected(($filters['date'] ?? '') === 'today')>{{ __('app.batches.batches.date_today') }}</option>
+                    <option value="week" @selected(($filters['date'] ?? '') === 'week')>{{ __('app.batches.batches.date_week') }}</option>
+                    <option value="month" @selected(($filters['date'] ?? '') === 'month')>{{ __('app.batches.batches.date_month') }}</option>
                 </select>
 
                 <select name="sort" onchange="this.form.submit()" class="rounded-lg border-gray-300 bg-white text-sm focus:border-navy-500 focus:ring-navy-500">
-                    <option value="newest" @selected(($filters['sort'] ?? 'newest') === 'newest')>{{ __('batches.batches.sort_newest') }}</option>
-                    <option value="oldest" @selected(($filters['sort'] ?? '') === 'oldest')>{{ __('batches.batches.sort_oldest') }}</option>
+                    <option value="newest" @selected(($filters['sort'] ?? 'newest') === 'newest')>{{ __('app.batches.batches.sort_newest') }}</option>
+                    <option value="oldest" @selected(($filters['sort'] ?? '') === 'oldest')>{{ __('app.batches.batches.sort_oldest') }}</option>
                 </select>
             </form>
 
             <!-- Column headers -->
             <div class="hidden sm:flex items-center gap-4 px-5 py-2.5 text-xs font-medium text-gray-500 uppercase tracking-wide border-b border-gray-100">
-                <div class="flex-1 min-w-0">{{ __('batches.batches.column_name') }}</div>
-                <div class="shrink-0 w-32">{{ __('batches.batches.column_status') }}</div>
-                <div class="shrink-0 w-28">{{ __('batches.batches.column_model') }}</div>
-                <div class="shrink-0 w-36">{{ __('batches.batches.column_progress') }}</div>
-                <div class="shrink-0 w-24 text-right">{{ __('batches.batches.column_created') }}</div>
+                <div class="flex-1 min-w-0">{{ __('app.batches.batches.column_name') }}</div>
+                <div class="shrink-0 w-32">{{ __('app.batches.batches.column_status') }}</div>
+                <div class="shrink-0 w-28">{{ __('app.batches.batches.column_model') }}</div>
+                <div class="shrink-0 w-36">{{ __('app.batches.batches.column_progress') }}</div>
+                <div class="shrink-0 w-24 text-right">{{ __('app.batches.batches.column_created') }}</div>
                 <div class="shrink-0 w-5"></div>
             </div>
 
@@ -94,7 +94,7 @@
                     </a>
                 @empty
                     <div class="px-5 py-10 text-center text-sm text-gray-500">
-                        {{ __('batches.batches.empty') }}
+                        {{ __('app.batches.batches.empty') }}
                     </div>
                 @endforelse
             </div>
@@ -103,7 +103,7 @@
             @if ($batches->total() > 0)
                 <div class="flex items-center justify-between px-5 py-3 border-t border-gray-100 bg-gray-50/60">
                     <p class="text-xs text-gray-500">
-                        {{ __('batches.batches.showing', ['from' => $batches->firstItem(), 'to' => $batches->lastItem(), 'total' => $batches->total()]) }}
+                        {{ __('app.batches.batches.showing', ['from' => $batches->firstItem(), 'to' => $batches->lastItem(), 'total' => $batches->total()]) }}
                     </p>
 
                     <div class="flex items-center gap-2">
@@ -111,13 +111,13 @@
                             href="{{ $batches->previousPageUrl() ?? '#' }}"
                             class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-300 bg-white text-gray-700 {{ $batches->onFirstPage() ? 'opacity-50 pointer-events-none' : 'hover:bg-gray-50' }}"
                         >
-                            {{ __('batches.batches.previous') }}
+                            {{ __('app.batches.batches.previous') }}
                         </a>
                         <a
                             href="{{ $batches->nextPageUrl() ?? '#' }}"
                             class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-300 bg-white text-gray-700 {{ $batches->hasMorePages() ? 'hover:bg-gray-50' : 'opacity-50 pointer-events-none' }}"
                         >
-                            {{ __('batches.batches.next') }}
+                            {{ __('app.batches.batches.next') }}
                         </a>
                     </div>
                 </div>
