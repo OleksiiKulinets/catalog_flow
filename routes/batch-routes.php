@@ -10,4 +10,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/batches/{batch}', [BatchController::class, 'show'])->name('batches.show');
     Route::get('/batches/{batch}/analyze', [BatchController::class, 'analyze'])->name('batches.analyze');
     Route::post('/batches/{batch}/confirm', [BatchController::class, 'confirm'])->name('batches.confirm');
+    Route::get('/batches/{batch}/status', [BatchController::class, 'status'])
+        ->middleware('throttle:30,1')
+        ->name('batches.status');
 });

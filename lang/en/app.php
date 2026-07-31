@@ -288,7 +288,9 @@ return [
             'download' => 'Download',
             'results' => 'Results',
             'results_placeholder' => 'Results will appear here once this batch finishes processing.',
-            'draft_placeholder' => "This batch hasn't been submitted for processing yet. Sending batches to the AI provider isn't available yet — this is coming soon.",
+            'draft_placeholder' => "This batch hasn't been submitted for processing yet.",
+            'eta_label' => 'Estimated time remaining',
+            'eta_calculating' => 'Calculating...',
         ],
 
     ],

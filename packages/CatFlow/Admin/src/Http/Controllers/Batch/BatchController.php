@@ -10,10 +10,14 @@ use CatFlow\Analysis\Jobs\BuildBatchJsonlJob;
 use CatFlow\Analysis\Models\DatasetColumn;
 use CatFlow\Analysis\Models\DatasetSchema;
 use CatFlow\Analysis\Services\ProductPreviewBuilder;
+use CatFlow\Batch\Jobs\PollBatchStatusJob;
 use CatFlow\Batch\Models\Batch;
+use CatFlow\Batch\Services\BatchStatusPoller;
+use CatFlow\Batch\Services\BatchSubmissionService;
 use CatFlow\File\Services\DatasetStorageService;
 use CatFlow\File\Services\GoogleSheets\GoogleSheetsImportException;
 use CatFlow\File\Services\GoogleSheets\GoogleSheetsImportService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -83,12 +87,20 @@ class BatchController extends Controller
 
     /**
      * Display a single batch's details.
+     *
+     * Also does a throttled status check (see BatchStatusPoller::pollIfStale)
+     * on every visit — the live JS polling on this page only keeps things
+     * fresh while someone has it open with a working browser, and the
+     * background PollBatchStatusJob only helps if a queue worker is
+     * actually running. Neither is guaranteed, so a plain page load/refresh
+     * needs to be able to catch things up on its own too.
      */
-    public function show(Request $request, Batch $batch): View
+    public function show(Request $request, Batch $batch, BatchStatusPoller $poller): View
     {
         abort_unless($batch->user_id === $request->user()->id, 404);
 
         $batch->loadMissing('dataset');
+        $poller->pollIfStale($batch);
 
         return view('batches.show', [
             'batch' => $batch->toDisplayArray(),
@@ -176,11 +188,15 @@ class BatchController extends Controller
     }
 
     /**
-     * Confirm (optionally edited) column mapping and build the batch's
-     * .jsonl input file from it.
+     * Confirm (optionally edited) column mapping, build the batch's .jsonl
+     * input file, then submit it to OpenAI's Batch API and start polling
+     * for completion.
      */
-    public function confirm(ConfirmDatasetSchemaRequest $request, Batch $batch): RedirectResponse
-    {
+    public function confirm(
+        ConfirmDatasetSchemaRequest $request,
+        Batch $batch,
+        BatchSubmissionService $submission
+    ): RedirectResponse {
         abort_unless($batch->user_id === $request->user()->id, 404);
         abort_unless($batch->status === 'draft', 404);
 
@@ -199,10 +215,43 @@ class BatchController extends Controller
             'confirmed_at' => now(),
         ]);
 
-        $batch->update(['status' => 'in_progress']);
+        try {
+            BuildBatchJsonlJob::dispatchSync($batch);
 
-        BuildBatchJsonlJob::dispatchSync($batch);
+            // Even a "sync" dispatch of a ShouldQueue job round-trips through
+            // serialization on the 'sync' queue connection, so the job worked
+            // on its own copy of $batch — input_jsonl_path landed in the DB
+            // but not on this in-memory instance until it's refreshed.
+            $batch->refresh();
+
+            $submission->submit($batch);
+            PollBatchStatusJob::dispatch($batch)->delay(now()->addSeconds(5));
+        } catch (\Throwable $e) {
+            report($e);
+            $batch->update(['status' => 'failed', 'error_message' => $e->getMessage()]);
+        }
 
         return Redirect::route('batches.show', $batch);
+    }
+
+    /**
+     * Lightweight JSON status snapshot polled from the batch detail page.
+     * Only performs a real OpenAI call when due — see
+     * BatchStatusPoller::pollIfStale() — so frequent client-side polling
+     * doesn't translate into hammering OpenAI's API.
+     */
+    public function status(Request $request, Batch $batch, BatchStatusPoller $poller): JsonResponse
+    {
+        abort_unless($batch->user_id === $request->user()->id, 404);
+
+        $poller->pollIfStale($batch);
+
+        return response()->json([
+            'status' => $batch->status,
+            'done' => $batch->request_completed,
+            'total' => $batch->request_total,
+            'eta_seconds' => $batch->estimatedSecondsRemaining(),
+            'eta_human' => $batch->estimatedTimeRemainingHuman(),
+        ]);
     }
 }

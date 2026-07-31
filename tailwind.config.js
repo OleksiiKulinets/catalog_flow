@@ -7,6 +7,7 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './packages/CatFlow/Admin/src/Resources/views/**/*.blade.php',
+        './packages/CatFlow/Admin/src/Resources/js/**/*.js',
     ],
 
     theme: {

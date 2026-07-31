@@ -46,6 +46,7 @@ return [
         'analysis_initial_sample' => env('OPENAI_ANALYSIS_INITIAL_SAMPLE', 20),
         'analysis_refine_sample' => env('OPENAI_ANALYSIS_REFINE_SAMPLE', 50),
         'analysis_confidence_threshold' => env('OPENAI_ANALYSIS_CONFIDENCE_THRESHOLD', 0.85),
+        'batch_poll_interval_seconds' => env('OPENAI_BATCH_POLL_INTERVAL', 30),
     ],
 
 ];

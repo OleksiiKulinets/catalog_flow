@@ -1,6 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between gap-4">
+        <div
+            class="flex items-center justify-between gap-4"
+            x-init="$store.batchStatus.boot(@js([
+                'url' => route('batches.status', $batch['id']),
+                'status' => $batch['status'],
+                'done' => $batch['done'],
+                'total' => $batch['total'],
+                'etaHuman' => $batch['eta_human'],
+                'labels' => trans('app.batches.status'),
+            ]))"
+        >
             <div class="flex items-center gap-3 min-w-0">
                 <a
                     href="{{ route('batches.index') }}"
@@ -15,7 +25,13 @@
                 <x-page-heading class="truncate">{{ $batch['name'] }}</x-page-heading>
             </div>
 
-            <x-status-badge :status="$batch['status']" class="!text-sm !px-3 !py-1.5 shrink-0" />
+            <span
+                class="!text-sm !px-3 !py-1.5 shrink-0 inline-flex items-center gap-1 rounded-full font-medium ring-1 ring-inset ring-black/5"
+                :class="[$store.batchStatus.color.bg, $store.batchStatus.color.text]"
+            >
+                <span class="h-2 w-2 rounded-full" :class="$store.batchStatus.color.dot"></span>
+                <span x-text="$store.batchStatus.label"></span>
+            </span>
         </div>
     </x-slot>
 
@@ -80,10 +96,24 @@
                         <dd class="mt-2">
                             <div class="flex items-center gap-2">
                                 <div class="h-2 flex-1 rounded-full bg-gray-200 overflow-hidden">
-                                    <div class="h-full rounded-full bg-navy-800" style="width: {{ $batch['total'] > 0 ? round($batch['done'] / $batch['total'] * 100) : 0 }}%"></div>
+                                    <div
+                                        class="h-full rounded-full bg-navy-800 transition-all"
+                                        :style="`width: ${$store.batchStatus.progressPercent}%`"
+                                        style="width: {{ $batch['total'] > 0 ? round($batch['done'] / $batch['total'] * 100) : 0 }}%"
+                                    ></div>
                                 </div>
-                                <span class="shrink-0 text-xs text-gray-500 tabular-nums">{{ $batch['done'] }}/{{ $batch['total'] }}</span>
+                                <span class="shrink-0 text-xs text-gray-500 tabular-nums">
+                                    <span x-text="$store.batchStatus.done">{{ $batch['done'] }}</span>/<span x-text="$store.batchStatus.total">{{ $batch['total'] }}</span>
+                                </span>
                             </div>
+                        </dd>
+                    </div>
+
+                    <div x-show="!$store.batchStatus.isTerminal" x-cloak>
+                        <dt class="text-xs text-gray-500">{{ __('app.batches.batch.eta_label') }}</dt>
+                        <dd class="mt-1 text-sm font-medium text-gray-900">
+                            <span x-show="$store.batchStatus.etaHuman" x-text="$store.batchStatus.etaHuman"></span>
+                            <span x-show="!$store.batchStatus.etaHuman">{{ __('app.batches.batch.eta_calculating') }}</span>
                         </dd>
                     </div>
                 </dl>

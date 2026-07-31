@@ -96,6 +96,21 @@ class AnalyzeBatchTest extends TestCase
         ])->all();
     }
 
+    /**
+     * Fakes both the analysis call (chat completions) and, since confirm()
+     * now also submits to OpenAI's Batch API, the file-upload/batch-create
+     * calls. Routed by exact path so this doesn't collide with the
+     * analysis fake the way a single 'api.openai.com/*' wildcard would.
+     */
+    private function fakeSuccessfulOpenAi(float $confidence = 0.95): void
+    {
+        Http::fake([
+            'api.openai.com/v1/chat/completions' => Http::response($this->analysisBody($confidence), 200),
+            'api.openai.com/v1/files' => Http::response(['id' => 'file-abc'], 200),
+            'api.openai.com/v1/batches' => Http::response(['id' => 'batch-xyz', 'status' => 'validating'], 200),
+        ]);
+    }
+
     public function test_analyze_renders_a_helpful_message_when_the_user_has_no_api_key(): void
     {
         $user = User::factory()->create();
@@ -168,7 +183,7 @@ class AnalyzeBatchTest extends TestCase
         $user = $this->userWithApiKey();
         [$dataset, $batch] = $this->datasetAndBatch($user);
 
-        Http::fake(['api.openai.com/*' => Http::response($this->analysisBody(0.95), 200)]);
+        $this->fakeSuccessfulOpenAi();
         $this->actingAs($user)->get(route('batches.analyze', $batch));
 
         $schema = DatasetSchema::where('dataset_id', $dataset->id)->firstOrFail();
@@ -180,9 +195,12 @@ class AnalyzeBatchTest extends TestCase
         $response->assertRedirect(route('batches.show', $batch));
 
         $batch->refresh();
-        $this->assertSame('in_progress', $batch->status);
+        $this->assertSame('queued', $batch->status);
         $this->assertNotNull($batch->input_jsonl_path);
         Storage::disk('local')->assertExists($batch->input_jsonl_path);
+        $this->assertSame('file-abc', $batch->input_file_id);
+        $this->assertSame('batch-xyz', $batch->provider_job_id);
+        $this->assertNotNull($batch->started_at);
 
         $schema->refresh();
         $this->assertSame(DatasetSchema::STATUS_CONFIRMED, $schema->status);
@@ -194,7 +212,7 @@ class AnalyzeBatchTest extends TestCase
         $user = $this->userWithApiKey();
         [$dataset, $batch] = $this->datasetAndBatch($user);
 
-        Http::fake(['api.openai.com/*' => Http::response($this->analysisBody(0.95), 200)]);
+        $this->fakeSuccessfulOpenAi();
         $this->actingAs($user)->get(route('batches.analyze', $batch));
 
         $schema = DatasetSchema::where('dataset_id', $dataset->id)->firstOrFail();
@@ -213,7 +231,7 @@ class AnalyzeBatchTest extends TestCase
         $user = $this->userWithApiKey();
         [$dataset, $batch] = $this->datasetAndBatch($user);
 
-        Http::fake(['api.openai.com/*' => Http::response($this->analysisBody(0.95), 200)]);
+        $this->fakeSuccessfulOpenAi();
         $this->actingAs($user)->get(route('batches.analyze', $batch));
 
         $schema = DatasetSchema::where('dataset_id', $dataset->id)->firstOrFail();

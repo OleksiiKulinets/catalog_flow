@@ -8,6 +8,16 @@ use RuntimeException;
 
 class JsonDatasetParser implements DatasetParserInterface
 {
+    /**
+     * Memoizes the decoded file for the lifetime of this instance — see the
+     * same caching note on XlsxDatasetParser::$cachedRows; columns()/rows()/
+     * countRows() otherwise each re-read and re-decode the whole file from
+     * scratch even when called back-to-back on the same instance.
+     *
+     * @var array<int, array<string, mixed>>|null
+     */
+    private ?array $cachedRows = null;
+
     public function columns(Dataset $dataset): array
     {
         $rows = $this->decode($dataset);
@@ -30,6 +40,10 @@ class JsonDatasetParser implements DatasetParserInterface
      */
     private function decode(Dataset $dataset): array
     {
+        if ($this->cachedRows !== null) {
+            return $this->cachedRows;
+        }
+
         $contents = Storage::disk('local')->get($dataset->storage_path);
 
         $decoded = json_decode((string) $contents, true);
@@ -38,6 +52,6 @@ class JsonDatasetParser implements DatasetParserInterface
             throw new RuntimeException("Dataset file is not a valid JSON array: {$dataset->storage_path}");
         }
 
-        return $decoded;
+        return $this->cachedRows = $decoded;
     }
 }

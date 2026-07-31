@@ -14,7 +14,13 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()) {
+        // A freshly created (not yet re-fetched) user's in-memory `locale`
+        // attribute can be null even though the `locale` column defaults to
+        // 'en' at the database level — Eloquent doesn't hydrate DB-applied
+        // defaults back onto the instance after create(). Guard against
+        // passing that null through to App::setLocale(), which would leave
+        // the app locale null for the rest of the request.
+        if ($request->user()?->locale) {
             App::setLocale($request->user()->locale);
         }
 
