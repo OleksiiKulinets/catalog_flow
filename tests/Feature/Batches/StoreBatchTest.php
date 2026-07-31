@@ -33,8 +33,6 @@ class StoreBatchTest extends TestCase
         ]);
 
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect(route('batches.create'));
-        $this->assertSame('batch-created', session('status'));
 
         $this->assertDatabaseCount('datasets', 1);
         $dataset = Dataset::first();
@@ -48,6 +46,7 @@ class StoreBatchTest extends TestCase
 
         $this->assertDatabaseCount('batches', 1);
         $batch = Batch::first();
+        $response->assertRedirect(route('batches.analyze', $batch));
         $this->assertSame($user->id, $batch->user_id);
         $this->assertSame($dataset->id, $batch->dataset_id);
         $this->assertSame('gpt-4.1', $batch->model);
@@ -76,9 +75,8 @@ class StoreBatchTest extends TestCase
         ]);
 
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect(route('batches.create'));
-        $this->assertSame('batch-created', session('status'));
         $this->assertDatabaseCount('batches', 1);
+        $response->assertRedirect(route('batches.analyze', Batch::first()));
     }
 
     public function test_submitting_both_a_file_and_a_real_google_sheet_url_is_rejected(): void
@@ -162,8 +160,6 @@ class StoreBatchTest extends TestCase
         ]);
 
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect(route('batches.create'));
-        $this->assertSame('batch-created', session('status'));
 
         $this->assertDatabaseCount('datasets', 1);
         $dataset = Dataset::first();
@@ -178,6 +174,7 @@ class StoreBatchTest extends TestCase
 
         $this->assertDatabaseCount('batches', 1);
         $batch = Batch::first();
+        $response->assertRedirect(route('batches.analyze', $batch));
         $this->assertSame('google_sheet', $batch->output_format);
         $this->assertSame($dataset->id, $batch->dataset_id);
     }

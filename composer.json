@@ -30,6 +30,7 @@
             "CatFlow\\Settings\\": "packages/CatFlow/Settings/src/",
             "CatFlow\\File\\": "packages/CatFlow/File/src/",
             "CatFlow\\Prompt\\": "packages/CatFlow/Prompt/src/",
+            "CatFlow\\Analysis\\": "packages/CatFlow/Analysis/src/",
             "CatFlow\\Batch\\": "packages/CatFlow/Batch/src/",
             "CatFlow\\Admin\\": "packages/CatFlow/Admin/src/",
             "Database\\Factories\\": "database/factories/",

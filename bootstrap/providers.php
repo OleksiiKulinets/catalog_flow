@@ -2,6 +2,7 @@
 
 use App\Providers\AppServiceProvider;
 use CatFlow\Admin\Providers\AdminServiceProvider;
+use CatFlow\Analysis\Providers\AnalysisServiceProvider;
 use CatFlow\Auth\Providers\AuthServiceProvider;
 use CatFlow\Batch\Providers\BatchServiceProvider;
 use CatFlow\File\Providers\FileServiceProvider;
@@ -17,5 +18,6 @@ return [
     FileServiceProvider::class,
     PromptServiceProvider::class,
     BatchServiceProvider::class,
+    AnalysisServiceProvider::class,
     AdminServiceProvider::class,
 ];

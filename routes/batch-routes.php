@@ -8,4 +8,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/batches/create', [BatchController::class, 'create'])->name('batches.create');
     Route::post('/batches', [BatchController::class, 'store'])->name('batches.store');
     Route::get('/batches/{batch}', [BatchController::class, 'show'])->name('batches.show');
+    Route::get('/batches/{batch}/analyze', [BatchController::class, 'analyze'])->name('batches.analyze');
+    Route::post('/batches/{batch}/confirm', [BatchController::class, 'confirm'])->name('batches.confirm');
 });

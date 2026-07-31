@@ -140,14 +140,7 @@
                         <p class="text-xs text-gray-500">
                             {{ __('app.batches.batches.create.uses_api_key') }}
 
-                            @if (session('status') === 'batch-created')
-                                <span class="block mt-1 font-medium text-green-600">
-                                    {{ __('app.batches.batches.create.created', [
-                                        'rows' => session('created_dataset.rows_count', 0),
-                                        'name' => session('created_dataset.name', ''),
-                                    ]) }}
-                                </span>
-                            @elseif (session('status') === 'google-sheets-error')
+                            @if (session('status') === 'google-sheets-error')
                                 <span class="block mt-1 font-medium text-amber-600">
                                     {{ __('app.batches.batches.create.google_sheets_errors.'.session('google_sheets_error_reason', 'fetch_failed')) }}
                                 </span>

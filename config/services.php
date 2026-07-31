@@ -41,4 +41,11 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'openai' => [
+        'analysis_model' => env('OPENAI_ANALYSIS_MODEL', 'gpt-5.4-mini'),
+        'analysis_initial_sample' => env('OPENAI_ANALYSIS_INITIAL_SAMPLE', 20),
+        'analysis_refine_sample' => env('OPENAI_ANALYSIS_REFINE_SAMPLE', 50),
+        'analysis_confidence_threshold' => env('OPENAI_ANALYSIS_CONFIDENCE_THRESHOLD', 0.85),
+    ],
+
 ];

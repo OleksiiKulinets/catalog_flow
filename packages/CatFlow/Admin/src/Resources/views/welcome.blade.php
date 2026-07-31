@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600;700&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['packages/CatFlow/Admin/src/Resources/css/app.css', 'packages/CatFlow/Admin/src/Resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased text-gray-900 bg-app-grid overflow-x-hidden">
