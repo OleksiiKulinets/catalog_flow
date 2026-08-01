@@ -56,6 +56,18 @@ class DashboardTest extends TestCase
 
         $response->assertOk();
         $response->assertViewHas('stats', fn (array $stats) => $stats['projects'] === 0);
-        $response->assertViewHas('recentBatches', fn ($batches) => $batches->isEmpty());
+        $response->assertViewHas('recentActivity', fn ($batches) => $batches->isEmpty());
+    }
+
+    public function test_dashboard_surfaces_failed_batches_by_name(): void
+    {
+        $user = User::factory()->create();
+        $this->makeBatch($user, 'failed');
+        $this->makeBatch($user, 'completed');
+
+        $response = $this->actingAs($user)->get('/dashboard');
+
+        $response->assertOk();
+        $response->assertViewHas('failedBatches', fn ($batches) => $batches->count() === 1);
     }
 }

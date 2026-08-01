@@ -15,91 +15,134 @@
         </div>
     </x-slot>
 
-    <x-container class="py-6 space-y-4">
-        <!-- Stats -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
+    <x-container class="py-5 space-y-3">
+        <!-- Row 1 — Overview strip (Priority 4): deliberately slim, just numbers -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-2.5">
                 <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.projects') }}</p>
-                <p class="mt-1 text-2xl font-bold text-gray-900">{{ $stats['projects'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.projects_subtitle') }}</p>
+                <p class="mt-0.5 text-xl font-bold text-gray-900">{{ $stats['projects'] }}</p>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-2.5">
                 <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.running') }}</p>
-                <p class="mt-1 text-2xl font-bold text-gray-900">{{ $stats['running'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.running_subtitle') }}</p>
+                <p class="mt-0.5 text-xl font-bold text-gray-900">{{ $stats['running'] }}</p>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
-                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.completed_today') }}</p>
-                <p class="mt-1 text-2xl font-bold text-gray-900">{{ $stats['completedToday'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.completed_today_subtitle') }}</p>
-            </div>
-
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-2.5">
                 <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.failed') }}</p>
-                <p class="mt-1 text-2xl font-bold {{ $stats['failed'] > 0 ? 'text-red-600' : 'text-gray-900' }}">{{ $stats['failed'] }}</p>
-                <p class="mt-0.5 text-xs text-gray-400">{{ __('app.admin.dashboard.stats.failed_subtitle') }}</p>
+                <p class="mt-0.5 text-xl font-bold {{ $stats['failed'] > 0 ? 'text-red-600' : 'text-gray-900' }}">{{ $stats['failed'] }}</p>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-2.5">
+                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ __('app.admin.dashboard.stats.completed_today') }}</p>
+                <p class="mt-0.5 text-xl font-bold text-gray-900">{{ $stats['completedToday'] }}</p>
             </div>
         </div>
 
-        <!-- Activity Feed + AI Activity -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
-                <div class="px-5 py-3 border-b border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.activity_feed.title') }}</h3>
+        <!-- Row 2 — Attention (Priority 1): the tallest, most prominent row -->
+        <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-3 items-stretch">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.running.title') }}</h3>
+                    <a href="{{ route('batches.index', ['status' => 'in_progress']) }}" class="text-xs font-medium text-navy-700 hover:text-navy-900 hover:underline">
+                        {{ __('app.admin.dashboard.running.view_all') }}
+                    </a>
                 </div>
 
-                <div class="divide-y divide-gray-100 flex-1">
-                    @forelse ($activityFeed as $event)
+                <div class="h-52 overflow-y-auto divide-y divide-gray-100 [scrollbar-width:thin] [scrollbar-color:#e5e7eb_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                    @forelse ($runningBatches as $batch)
                         @php
-                            $iconStyle = match (true) {
-                                $event['status'] === 'completed' => ['bg' => 'bg-green-50', 'text' => 'text-green-600', 'path' => 'M4.5 12.75l6 6 9-13.5'],
-                                in_array($event['status'], ['failed', 'expired', 'cancelled', 'cancelling'], true) => ['bg' => 'bg-red-50', 'text' => 'text-red-600', 'path' => 'M6 18L18 6M6 6l12 12'],
-                                default => ['bg' => 'bg-navy-50', 'text' => 'text-navy-700', 'path' => 'M12 6v6l4 2'],
-                            };
+                            $progress = $batch['total'] > 0 ? round($batch['done'] / $batch['total'] * 100) : 0;
                         @endphp
-                        <div class="flex items-center gap-3 px-5 py-2.5">
-                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full {{ $iconStyle['bg'] }} {{ $iconStyle['text'] }}">
-                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="{{ $iconStyle['path'] }}" />
-                                </svg>
-                            </span>
+                        <a href="{{ route('batches.show', $batch['id']) }}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition">
+                            <p class="w-2/5 shrink-0 text-sm font-medium text-gray-900 truncate">{{ $batch['name'] }}</p>
 
-                            <div class="min-w-0 flex-1">
-                                <p class="text-sm text-gray-900 truncate">
-                                    <span class="font-medium">{{ __('app.admin.dashboard.activity_labels.'.$event['status']) }}</span>
-                                    <span class="text-gray-500">· {{ $event['name'] }}</span>
-                                </p>
+                            <div class="flex flex-1 items-center gap-2">
+                                <div class="h-1.5 flex-1 rounded-full bg-gray-200 overflow-hidden">
+                                    <div class="h-full rounded-full bg-navy-800" style="width: {{ $progress }}%"></div>
+                                </div>
+                                <span class="shrink-0 text-xs text-gray-500 tabular-nums w-9 text-right">{{ $progress }}%</span>
                             </div>
-
-                            <span class="shrink-0 text-xs text-gray-400">{{ $event['time'] }}</span>
-                        </div>
+                        </a>
                     @empty
-                        <div class="px-5 py-8 text-center text-sm text-gray-500">
-                            {{ __('app.admin.dashboard.activity_feed.empty') }}
+                        <div class="px-4 py-6 text-center text-sm text-gray-500">
+                            {{ __('app.admin.dashboard.running.empty') }}
                         </div>
                     @endforelse
                 </div>
+            </div>
 
-                <div class="px-5 py-3 border-t border-gray-100 text-center">
-                    <a href="{{ route('batches.index') }}" class="text-sm font-medium text-navy-700 hover:text-navy-900 hover:underline">
-                        {{ __('app.admin.dashboard.activity_feed.view_all') }}
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.failed_batches.title') }}</h3>
+                    <a href="{{ route('batches.index', ['status' => 'failed']) }}" class="text-xs font-medium text-navy-700 hover:text-navy-900 hover:underline">
+                        {{ __('app.admin.dashboard.failed_batches.view_all') }}
                     </a>
+                </div>
+
+                <div class="h-52 overflow-y-auto divide-y divide-gray-100 [scrollbar-width:thin] [scrollbar-color:#e5e7eb_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                    @forelse ($failedBatches as $batch)
+                        <a href="{{ route('batches.show', $batch['id']) }}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">{{ $batch['name'] }}</p>
+                            </div>
+                            <span class="shrink-0 text-xs text-gray-500">{{ $batch['time'] }}</span>
+                        </a>
+                    @empty
+                        <div class="h-full flex flex-col items-center justify-center gap-1.5 px-4 text-center">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-green-50 text-green-600">
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
+                            </span>
+                            <p class="text-sm text-gray-500">{{ __('app.admin.dashboard.failed_batches.empty') }}</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3 — Recent work (P2) + Analytics (P3): secondary row -->
+        <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-3 items-stretch">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.recent.title') }}</h3>
+                    <a href="{{ route('batches.index') }}" class="text-xs font-medium text-navy-700 hover:text-navy-900 hover:underline">
+                        {{ __('app.admin.dashboard.recent.more') }}
+                    </a>
+                </div>
+
+                <div class="h-52 overflow-y-auto divide-y divide-gray-100 [scrollbar-width:thin] [scrollbar-color:#e5e7eb_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                    @forelse ($recentActivity as $batch)
+                        <a href="{{ route('batches.show', $batch['id']) }}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">{{ $batch['name'] }}</p>
+                            </div>
+
+                            <x-status-badge :status="$batch['status']" />
+
+                            <div class="shrink-0 text-xs text-gray-500">{{ $batch['time'] }}</div>
+                        </a>
+                    @empty
+                        <div class="px-4 py-6 text-center text-sm text-gray-500">
+                            {{ __('app.admin.dashboard.recent.empty') }}
+                        </div>
+                    @endforelse
                 </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5 flex flex-col">
-                <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.ai_activity.title') }}</h3>
-                <p class="mt-0.5 text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.subtitle', ['weeks' => $activityWeeks]) }}</p>
+            <!-- Analytics (P3): heatmap anchored to the top, metrics anchored
+                 to the bottom so content fills the stretched card evenly. -->
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.ai_activity.title') }}</h3>
 
-                <div class="mt-4 flex flex-1 items-center gap-5">
-                    <div class="flex gap-1">
+                    <div class="mt-3 flex justify-between">
                         @foreach (array_chunk($activityByDay, 7) as $week)
                             <div class="flex flex-col gap-1">
                                 @foreach ($week as $day)
                                     <div
-                                        class="h-2.5 w-2.5 rounded-sm {{ match (true) {
+                                        class="h-4 w-4 rounded-sm {{ match (true) {
                                             $day['count'] === 0 => 'bg-gray-100',
                                             $day['count'] === 1 => 'bg-navy-300',
                                             $day['count'] === 2 => 'bg-navy-500',
@@ -112,97 +155,33 @@
                         @endforeach
                     </div>
 
-                    <div class="flex-1 min-w-0 space-y-2.5 border-l border-gray-100 pl-5">
-                        <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.total_requests') }}</span>
-                            <span class="text-sm font-semibold text-gray-900 tabular-nums">{{ number_format($aiActivityStats['totalRequests']) }}</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.projects_created') }}</span>
-                            <span class="text-sm font-semibold text-gray-900 tabular-nums">{{ $aiActivityStats['projectsCreated'] }}</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.batches_completed') }}</span>
-                            <span class="text-sm font-semibold text-green-600 tabular-nums">{{ $aiActivityStats['batchesCompleted'] }}</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.batches_failed') }}</span>
-                            <span class="text-sm font-semibold {{ $aiActivityStats['batchesFailed'] > 0 ? 'text-red-600' : 'text-gray-900' }} tabular-nums">{{ $aiActivityStats['batchesFailed'] }}</span>
-                        </div>
+                    <div class="mt-2 flex items-center justify-end gap-1.5 text-xs text-gray-400">
+                        <span>{{ __('app.admin.dashboard.ai_activity.less') }}</span>
+                        <span class="h-2.5 w-2.5 rounded-sm bg-gray-100"></span>
+                        <span class="h-2.5 w-2.5 rounded-sm bg-navy-300"></span>
+                        <span class="h-2.5 w-2.5 rounded-sm bg-navy-500"></span>
+                        <span class="h-2.5 w-2.5 rounded-sm bg-navy-700"></span>
+                        <span>{{ __('app.admin.dashboard.ai_activity.more') }}</span>
                     </div>
                 </div>
 
-                <div class="mt-3 flex items-center justify-end gap-1.5 text-xs text-gray-400">
-                    <span>{{ __('app.admin.dashboard.ai_activity.less') }}</span>
-                    <span class="h-2.5 w-2.5 rounded-sm bg-gray-100"></span>
-                    <span class="h-2.5 w-2.5 rounded-sm bg-navy-300"></span>
-                    <span class="h-2.5 w-2.5 rounded-sm bg-navy-500"></span>
-                    <span class="h-2.5 w-2.5 rounded-sm bg-navy-700"></span>
-                    <span>{{ __('app.admin.dashboard.ai_activity.more') }}</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Running + Recent -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                <div class="px-5 py-3 border-b border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.running.title') }}</h3>
-                </div>
-
-                <div class="divide-y divide-gray-100">
-                    @forelse ($runningBatches as $batch)
-                        <a href="{{ route('batches.show', $batch['id']) }}" class="block px-5 py-3 hover:bg-gray-50 transition">
-                            <div class="flex items-center justify-between gap-3">
-                                <p class="text-sm font-medium text-gray-900 truncate">{{ $batch['name'] }}</p>
-                                <span class="shrink-0 text-xs text-gray-500 tabular-nums">
-                                    {{ $batch['total'] > 0 ? round($batch['done'] / $batch['total'] * 100) : 0 }}%
-                                </span>
-                            </div>
-                            @php
-                                $progress = $batch['total'] > 0
-                                    ? round($batch['done'] / $batch['total'] * 100)
-                                    : 0;
-                            @endphp
-
-                            <div
-                                class="h-full rounded-full bg-navy-800"
-                                style="width: {{ $progress }}%">
-                            </div>
-                        </a>
-                    @empty
-                        <div class="px-5 py-8 text-center text-sm text-gray-500">
-                            {{ __('app.admin.dashboard.running.empty') }}
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                <div class="flex items-center justify-between px-5 py-3 border-b border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ __('app.admin.dashboard.recent.title') }}</h3>
-
-                    <a href="{{ route('batches.index') }}" class="text-sm font-medium text-navy-700 hover:text-navy-900 hover:underline">
-                        {{ __('app.admin.dashboard.recent.more') }}
-                    </a>
-                </div>
-
-                <div class="divide-y divide-gray-100">
-                    @forelse ($recentBatches as $batch)
-                        <a href="{{ route('batches.show', $batch['id']) }}" class="flex items-center gap-4 px-5 py-2.5 hover:bg-gray-50 transition">
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900 truncate">{{ $batch['name'] }}</p>
-                            </div>
-
-                            <x-status-badge :status="$batch['status']" />
-
-                            <div class="shrink-0 text-sm text-gray-500">{{ $batch['time'] }}</div>
-                        </a>
-                    @empty
-                        <div class="px-5 py-8 text-center text-sm text-gray-500">
-                            {{ __('app.admin.dashboard.recent.empty') }}
-                        </div>
-                    @endforelse
+                <div class="mt-4 pt-3 border-t border-gray-100 grid grid-cols-2 gap-x-3 gap-y-2.5">
+                    <div>
+                        <p class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.total_requests') }}</p>
+                        <p class="text-sm font-semibold text-gray-900 tabular-nums">{{ number_format($aiActivityStats['totalRequests']) }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.success_rate') }}</p>
+                        <p class="text-sm font-semibold text-gray-900 tabular-nums">{{ $aiActivityStats['successRate'] }}%</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.batches_completed') }}</p>
+                        <p class="text-sm font-semibold text-green-600 tabular-nums">{{ $aiActivityStats['batchesCompleted'] }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">{{ __('app.admin.dashboard.ai_activity.batches_failed') }}</p>
+                        <p class="text-sm font-semibold {{ $aiActivityStats['batchesFailed'] > 0 ? 'text-red-600' : 'text-gray-900' }} tabular-nums">{{ $aiActivityStats['batchesFailed'] }}</p>
+                    </div>
                 </div>
             </div>
         </div>

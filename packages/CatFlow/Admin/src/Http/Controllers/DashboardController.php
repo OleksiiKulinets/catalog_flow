@@ -10,12 +10,17 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    private const ACTIVITY_WEEKS = 12;
+    // 13 weeks = 91 days, the closest whole-week span to "last 90 days" —
+    // the heatmap renders in full Sun–Sat columns, so it can't be exactly 90.
+    private const ACTIVITY_WEEKS = 13;
 
     public function index(Request $request): View
     {
         $userId = $request->user()->id;
         $base = fn (): Builder => Batch::query()->where('user_id', $userId);
+
+        $batchesCompleted = $base()->where('status', 'completed')->count();
+        $batchesFailed = $base()->where('status', 'failed')->count();
 
         return view('dashboard.index', [
             'stats' => [
@@ -24,19 +29,28 @@ class DashboardController extends Controller
                 'completedToday' => $base()->where('status', 'completed')->whereDate('finished_at', now())->count(),
                 'failed' => $base()->where('status', 'failed')->count(),
             ],
+            'activityByDay' => $this->activityByDay($userId, self::ACTIVITY_WEEKS),
             'aiActivityStats' => [
                 'totalRequests' => $base()->sum('request_completed'),
                 'projectsCreated' => $base()->count(),
-                'batchesCompleted' => $base()->where('status', 'completed')->count(),
-                'batchesFailed' => $base()->where('status', 'failed')->count(),
+                'batchesCompleted' => $batchesCompleted,
+                'batchesFailed' => $batchesFailed,
+                // Guarded against a fresh account with zero of either.
+                'successRate' => (int) round($batchesCompleted / max(1, $batchesCompleted + $batchesFailed) * 100),
             ],
-            'activityByDay' => $this->activityByDay($userId, self::ACTIVITY_WEEKS),
-            'activityWeeks' => self::ACTIVITY_WEEKS,
-            'activityFeed' => $base()->with('dataset')->latest()->take(5)->get()
+            // Every dashboard list is capped at the same small count and
+            // paired with a "View all" link rather than growing taller —
+            // the whole dashboard is meant to fit one screen as a control
+            // center, not read like a paginated list page.
+            'runningBatches' => $base()->with('dataset')->where('status', 'in_progress')->latest()->take(5)->get()
                 ->map(fn (Batch $batch) => $batch->toDisplayArray()),
-            'runningBatches' => $base()->with('dataset')->where('status', 'in_progress')->latest()->take(3)->get()
+            'failedBatches' => $base()->with('dataset')->where('status', 'failed')->latest()->take(5)->get()
                 ->map(fn (Batch $batch) => $batch->toDisplayArray()),
-            'recentBatches' => $base()->with('dataset')->latest()->take(5)->get()
+            // Replaces what used to be two separate panels ("Recent
+            // Projects" and "Activity Feed") showing the exact same
+            // latest()->take(5) query with two different visual styles —
+            // merged into one list, one job.
+            'recentActivity' => $base()->with('dataset')->latest()->take(5)->get()
                 ->map(fn (Batch $batch) => $batch->toDisplayArray()),
         ]);
     }
